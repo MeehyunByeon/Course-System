@@ -16,7 +16,7 @@
 	<input type="radio" name="job" value="prof" checked="checked">
 	<label for="prof">Professor</label>
 	<input type="radio" name="job" value="student">
-	<label for="stud">Student</label><br>
+	<label for="stud">Student</label><br><br>
 	<input type="submit" value="Login">
 </form>
 </body>

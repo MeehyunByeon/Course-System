@@ -4,15 +4,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>LogOut Result</title>
 </head>
 <body>
 <h2>LogOut Result</h2><br>
-	<h2>ID - ${id } : LogOut Success</h2><br>
-	<%
-		session.invalidate();
-	%>
-	<p>
-	<%@ include file="yongInLMS.jsp" %>
+	<%String sessionId = (String)request.getSession().getAttribute("sessionId"); %>
+	<h2>ID - ${sessionId } : LogOut Success</h2><br>
+	
+	<%session.invalidate();%>
+	
+	<hr>
+	<a href="yongInLMS.jsp">HOME</a>
 </body>
 </html>

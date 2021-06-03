@@ -34,7 +34,7 @@ public class LoginController implements Controller{
 		if(result)
 		{
 			HttpSession session = request.getSession();
-			session.setAttribute("id", id);
+			session.setAttribute("sessionId", id);
 		}
 		else if(!result){
 			path = "/yongInLMS.jsp";

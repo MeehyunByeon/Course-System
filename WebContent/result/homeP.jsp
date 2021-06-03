@@ -7,6 +7,6 @@
 <title>home.jsp</title>
 </head>
 <body>
-	<a href="/exam/studMenu.jsp">HOME</a>
+	<a href="/CourseSystem/profMenu.jsp">HOME</a>
 </body>
 </html>

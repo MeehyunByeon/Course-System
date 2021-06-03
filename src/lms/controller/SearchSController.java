@@ -8,18 +8,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import lms.service.Service;
-import lms.vo.Enroll;
+import lms.vo.SSubject;
 
-public class SearchController implements Controller {
+public class SearchSController implements Controller {
 	public void execute(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		String subject = request.getParameter("subject");
+		String find = request.getParameter("subject");
 		
 		Service s = Service.getInstance();
-		Enroll enroll = s.search(subject);
-		if(subject == null) request.setAttribute("result", "No Subject!!!");
+		SSubject subject = s.searchS(find);
 		
-		request.setAttribute("subject", enroll);
-		HttpUtil.forward(request, response, "/search.jsp");
+		String msg = null;
+		if(subject == null) {
+			msg = "No Subject!!!";
+		}
+		
+		request.setAttribute("subject", subject);
+		request.setAttribute("msg", msg);
+		HttpUtil.forward(request, response, "/searchS.jsp");
 	}
 }

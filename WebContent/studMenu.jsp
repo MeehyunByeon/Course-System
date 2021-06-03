@@ -7,9 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Student</h1>
-	<a href="enrollS.jsp"><h3>수강신청 및 수강취소</h3></a><br>
-	<a href="showS.do"><h3>수강신청리스트</h3></a><br>
-	<a href="logoutS.jsp"><h3>로그아웃</h3></a><br>
+	<h1>Student Menu</h1>
+	<a href="searchS.jsp"><h3>1 수강신청</h3></a><br>
+	<a href="listS.do"><h3>2 수강신청리스트</h3></a><br>
+	<a href="cancleS.jsp"><h3>3 수강취소</h3></a><br>
+	<a href="showAll.do"><h3>4 모든 강의</h3></a><br>
+	<a href="logout.jsp"><h3>5 로그아웃</h3></a><br>
 </body>
 </html>

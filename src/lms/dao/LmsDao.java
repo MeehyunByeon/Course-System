@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.jar.Attributes.Name;
 
 import lms.vo.Enroll;
 import lms.vo.Professor;
@@ -126,7 +128,7 @@ public class LmsDao {
 		return result;
 	}
 	
-	public void enroll(SSubject subject)
+	public void enrollP(SSubject subject)
 	{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -142,29 +144,53 @@ public class LmsDao {
 			pstmt.executeUpdate();
 		}catch (Exception e) 
 		{
-			System.out.print("MDAO:enroll"+e);
+			System.out.print("MDAO:enrollP"+e);
 		}finally {
 			close(conn, pstmt);
 		}
 	}
 	
-	public Enroll search(String subject) {
+	public void enrollS(Enroll enroll)
+	{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		Enroll enroll = null;
 		
 		try
 		{
 			conn = connect();
-			pstmt = conn.prepareStatement("select * from enroll where student = ?;");
-			pstmt.setString(1, subject);
+			pstmt = conn.prepareStatement("insert into enroll values(?,?);");
+			pstmt.setString(1, enroll.getSubject());
+			pstmt.setString(2, enroll.getStudent());
+			pstmt.executeUpdate();
+		}catch (Exception e) 
+		{
+			System.out.print("MDAO:enrollS"+e);
+		}finally {
+			close(conn, pstmt);
+		}
+	}
+	
+	public SSubject searchS(String find) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		SSubject subject = null;
+		
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("select subject.id, subject.name, subject.count, prof.name "
+					+ "from subject, prof "
+					+ "where subject.id = ? and prof.id = subject.prof;");
+			pstmt.setString(1, find);
 			rs = pstmt.executeQuery();
 			if(rs.next())
 			{
-				enroll = new Enroll();
-				enroll.setSubject(rs.getString(1));
-				enroll.setStudent(rs.getString(2));
+				subject = new SSubject();
+				subject.setId(rs.getString(1));
+				subject.setName(rs.getString(2));
+				subject.setCount(rs.getInt(3));
+				subject.setProf(rs.getString(4));
 			}
 		}catch(Exception e) {
 			System.out.print("MSearch error"+e);
@@ -172,8 +198,225 @@ public class LmsDao {
 		{
 			close(conn, pstmt, rs);
 		}
-		return enroll;
+		return subject;
 	}
+	
+	public void cancleS(Enroll enroll)
+	{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("delete from enroll where subject=? AND student=?;");
+			pstmt.setString(1, enroll.getSubject());
+			pstmt.setString(2, enroll.getStudent());
+			pstmt.executeUpdate();
+		}catch (Exception e) 
+		{
+			System.out.print("MDAO:mDelete"+e);
+		}finally {
+			close(conn, pstmt);
+		}
+	}
+	
+	public void cancleP(SSubject sub) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("delete from subject where id=? AND prof=?;");
+			pstmt.setString(1, sub.getId());
+			pstmt.setString(2, sub.getProf());
+			pstmt.executeUpdate();
+		}catch (Exception e) 
+		{
+			System.out.print("MDAO:mDelete"+e);
+		}finally {
+			close(conn, pstmt);
+		}
+		
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("delete from enroll where subject=?;");
+			pstmt.setString(1, sub.getId());
+			pstmt.executeUpdate();
+		}catch (Exception e) 
+		{
+			System.out.print("MDAO:mDelete"+e);
+		}finally {
+			close(conn, pstmt);
+		}
+	}
+	
+	public ArrayList<SSubject> listP(String profId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		SSubject sub = null;
+		ArrayList<SSubject> listP = new ArrayList<SSubject>();
+		
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("select subject.id, subject.name, subject.count, count(*)student "
+					+ "from subject, enroll "
+					+ "where subject.prof = ? AND enroll.subject = subject.id "
+					+ "group by subject.id order by id asc;");
+			
+			pstmt.setString(1, profId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) 
+			{
+				sub = new SSubject();
+				sub.setId(rs.getString(1));
+				sub.setName(rs.getString(2));
+				sub.setCount(rs.getInt(3));
+				sub.setNumber(rs.getInt(4));
+				listP.add(sub);
+			}
+		}catch (Exception e) 
+		{
+			System.out.print("MDAO:mListAll"+e);
+		}finally {
+			close(conn, pstmt, rs);
+		}
+		return listP;
+	}
+	public ArrayList<SSubject> listS(String studId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		SSubject sub = null;
+		ArrayList<SSubject> listS = new ArrayList<SSubject>();
+		
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("select enroll.subject, subject.name, prof.name "
+					+ "from enroll, subject, prof "
+					+ "where enroll.student = ? and enroll.subject=subject.id and prof.id = subject.prof "
+					+ "group by enroll.subject;");
+			pstmt.setString(1, studId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) 
+			{
+				sub = new SSubject();
+				sub.setId(rs.getString(1));
+				sub.setName(rs.getString(2));
+				sub.setProf(rs.getString(3));
+				listS.add(sub);
+			}
+		}catch (Exception e) 
+		{
+			System.out.print("MDAO:listS"+e);
+		}finally {
+			close(conn, pstmt, rs);
+		}
+		return listS;
+	}
+	
+	public ArrayList<Enroll> detailP(String subject) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Enroll en = null;
+		ArrayList<Enroll> detailP = new ArrayList<Enroll>();
+
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("select enroll.student, student.name "
+					+ "from enroll, student "
+					+ "where subject = ? and enroll.student = student.id;");
+			pstmt.setString(1, subject);
+			rs = pstmt.executeQuery();
+			while (rs.next()) 
+			{
+				en = new Enroll();
+				en.setStudent(rs.getString(1));
+				en.setName(rs.getString(2));
+				detailP.add(en);
+			}
+		}catch (Exception e) 
+		{
+			System.out.print("MDAO:listS"+e);
+		}finally {
+			close(conn, pstmt, rs);
+		}
+		return detailP;
+	}
+	
+	public ArrayList<SSubject> showAll() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		SSubject sub = null;
+		ArrayList<SSubject> all = new ArrayList<SSubject>();
+		
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("select subject.id, subject.name, subject.count, prof.name "
+					+ "from subject, prof where prof.id = subject.prof;");
+			rs = pstmt.executeQuery();
+			while (rs.next()) 
+			{
+				sub = new SSubject();
+				sub.setId(rs.getString(1));
+				sub.setName(rs.getString(2));
+				sub.setCount(rs.getInt(3));
+				sub.setProf(rs.getString(4));
+				all.add(sub);
+			}
+		}catch (Exception e) 
+		{
+			System.out.print("MDAO:mListAll"+e);
+		}finally {
+			close(conn, pstmt, rs);
+		}
+		return all;
+	}
+	
+	public ArrayList<SSubject> showDetail() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		SSubject sub = null;
+		ArrayList<SSubject> detail = new ArrayList<SSubject>();
+		
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("select subject.id, subject.name, subject.count, prof.name, count(*) "
+					+ "from subject, enroll, prof "
+					+ "where subject.id = enroll.subject and prof.id = subject.prof "
+					+ "group by subject.id;");
+			rs = pstmt.executeQuery();
+			while (rs.next()) 
+			{
+				sub = new SSubject();
+				sub.setId(rs.getString(1));
+				sub.setName(rs.getString(2));
+				sub.setCount(rs.getInt(3));
+				sub.setProf(rs.getString(4));
+				sub.setCurrent(rs.getInt(5));
+				detail.add(sub);
+			}
+		}catch (Exception e) 
+		{
+			System.out.print("MDAO:mListAll"+e);
+		}finally {
+			close(conn, pstmt, rs);
+		}
+		return detail;
+	}
+	
+	
 }
 
 
