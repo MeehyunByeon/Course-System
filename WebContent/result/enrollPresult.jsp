@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>enrollP.jsp</title>
+<title>Professor Enroll SUCCESS</title>
 </head>
 <body>
 	<h2>Enroll SUCCESS</h2><br>

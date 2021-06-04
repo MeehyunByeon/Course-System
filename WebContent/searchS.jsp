@@ -5,9 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Enroll Class</title>
 </head>
 <body>
+	<h2>Enroll Class</h2><br><br>
 	<form action="searchS.do" method="put">
 	<h2>INPUT the Subject ID(Number)</h2><br>
 		Subject ID : <input type="text" name="subject" /> <br><br>
@@ -17,7 +18,7 @@
 	<% 
 		SSubject subject = (SSubject)request.getAttribute("subject");
 		String msg = (String)request.getAttribute("msg");
-		if(subject != null){
+		if(subject != null && msg == null){
 	%>
 		<form action="enrollS.do" method="put">
 			Subject ID : <input type="text" readonly name="eid" value="${subject.id }"/> <br><br>
@@ -29,7 +30,7 @@
 		</form>
 	
 	<%} else{ %>
-		${result}
+		${msg}<br><br>
 	<%} %>
 	
 	<%@ include file="homeS.jsp" %>

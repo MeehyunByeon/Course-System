@@ -13,7 +13,8 @@ import lms.vo.Enroll;
 public class detailPController implements Controller {
 	// 교수: 등록된 강의 리스트_상세정보
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void execute(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		String subject = request.getParameter("subject");
 		
 		Service service = Service.getInstance();

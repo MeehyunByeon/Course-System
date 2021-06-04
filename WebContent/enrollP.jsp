@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Professor Enroll</title>
 </head>
 <body>
 	<h1>Professor Enroll</h1>
@@ -12,7 +12,7 @@
 		ID : <input type="text" name="subId" /> <br><br>
 		TITLE : <input type="text" name="subName" /> <br><br>
 		# OF STUDENT : <input type="text" name="subCount" /> <br><br>
-		<input type="submit" value="Enroll">
+		<input type="submit" value="Enroll"><br><br>
 	</form>
 	
 	<%@ include file="/homeP.jsp" %>

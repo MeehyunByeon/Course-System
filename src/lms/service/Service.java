@@ -1,5 +1,4 @@
 package lms.service;
-
 import java.util.ArrayList;
 
 import javax.security.auth.Subject;
@@ -39,6 +38,17 @@ public class Service {
 	public SSubject searchS(String find) {
 		SSubject subject = dao.searchS(find);
 		return subject;
+	}
+	
+	// 교수: 정보 수정할 강의 검색
+	public SSubject searchP(String find, String prof) {
+		SSubject subject = dao.searchP(find, prof);
+		return subject;
+	}
+	
+	// 교수: 강의정보 수정
+	public void updateP(SSubject sub) {
+			dao.updateP(sub);
 	}
 	
 	// 학생: 수강 신청
@@ -87,5 +97,10 @@ public class Service {
 		return dao.showDetail();
 	}
 	
+	// 현재 수강신청 인원
+	public int current(String find) {
+		int num = dao.current(find);
+		return num;
+	}
 }
 

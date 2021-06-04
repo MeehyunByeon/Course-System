@@ -1,35 +1,33 @@
 package lms.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import lms.service.Service;
 import lms.vo.SSubject;
 
-public class SearchSController implements Controller {
-	// 학생: 수강신청 과목 검색
+public class SearchPController implements Controller {
+
+	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		String find = request.getParameter("subject");
+		String prof = (String)request.getSession().getAttribute("sessionId");
 		
 		Service s = Service.getInstance();
-		SSubject subject = s.searchS(find);
-		int num = s.current(find);
-
+		SSubject sub = s.searchP(find, prof);
+		
 		String msg = null;
-		
-		if(subject == null)
+		if(sub == null) {
 			msg = "No Subject!!!";
-		else if(subject.getCount() < num+1)
-			msg= "MAX MEMBER! Choose the Other Class ";
+		}
 		
-		request.setAttribute("subject", subject);
+		request.setAttribute("sub", sub);
 		request.setAttribute("msg", msg);
-		HttpUtil.forward(request, response, "/searchS.jsp");
+		HttpUtil.forward(request, response, "/updateP.jsp");
 	}
+
 }

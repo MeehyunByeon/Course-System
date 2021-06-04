@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Student Cancle the Class</title>
 </head>
 <body>
 	<h2>Cancle Success</h2><br><br>

@@ -155,6 +155,7 @@ public class LmsDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
+		
 		try
 		{
 			conn = connect();
@@ -200,6 +201,36 @@ public class LmsDao {
 		}
 		return subject;
 	}
+	
+	public SSubject searchP(String find, String prof) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		SSubject subject = null;
+		
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("select id, name, count from subject where id=? and prof=?;");
+			pstmt.setString(1, find);
+			pstmt.setString(2, prof);
+			rs = pstmt.executeQuery();
+			if(rs.next())
+			{
+				subject = new SSubject();
+				subject.setId(rs.getString(1));
+				subject.setName(rs.getString(2));
+				subject.setCount(rs.getInt(3));
+			}
+		}catch(Exception e) {
+			System.out.print("Professor Class Search Error"+e);
+		}finally
+		{
+			close(conn, pstmt, rs);
+		}
+		return subject;
+	}
+	
 	
 	public void cancleS(Enroll enroll)
 	{
@@ -447,7 +478,52 @@ public class LmsDao {
 		return detail;
 	}
 	
+	public void updateP(SSubject sub) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("update subject set name=?, count=? where id=? and prof=?;");
+			pstmt.setString(1, sub.getName());
+			pstmt.setInt(2, sub.getCount());
+			pstmt.setString(3, sub.getId());
+			pstmt.setString(4, sub.getProf());
+			pstmt.executeUpdate();
+		}catch(Exception e)
+		{
+			System.out.print("Update Class Error"+e);
+		}finally {
+			close(conn, pstmt);
+		}
+	}
 	
+	public int current(String find) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int num = 0;
+		
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("select count(*) from subject, enroll "
+					+ "where subject.id=? and subject.id = enroll.subject;");
+			pstmt.setString(1, find);
+			rs = pstmt.executeQuery();
+			if(rs.next())
+			{
+				num = rs.getInt(1);
+			}
+		}catch(Exception e) {
+			System.out.print("Class Current Num Search Error"+e);
+		}finally
+		{
+			close(conn, pstmt, rs);
+		}
+		return num;
+	}
 	
 }
 

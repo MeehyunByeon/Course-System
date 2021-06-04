@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>home.jsp</title>
+<title>Student home.jsp</title>
 </head>
 <body>
 	<a href="studMenu.jsp">HOME</a>

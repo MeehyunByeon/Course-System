@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Student Enroll Result</title>
 </head>
 <body>
 	<h3>Student Enroll Result</h3><br><br>

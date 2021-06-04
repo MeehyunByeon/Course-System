@@ -13,7 +13,8 @@ import lms.vo.SSubject;
 public class CanclePController implements Controller {
 	// 교수: 강의 취소
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void execute(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		String subject = request.getParameter("subject");
 		String professor = (String)request.getSession().getAttribute("sessionId");
 		

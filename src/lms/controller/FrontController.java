@@ -20,6 +20,8 @@ public class FrontController extends HttpServlet{
 		map.put("/cancleP.do", new CanclePController());
 		map.put("/listP.do", new ListPController());
 		map.put("/detailP.do", new detailPController());
+		map.put("/searchP.do", new SearchPController());
+		map.put("/updateP.do", new UpdatePController());
 		
 		map.put("/searchS.do", new SearchSController());
 		map.put("/enrollS.do", new EnrollSController());

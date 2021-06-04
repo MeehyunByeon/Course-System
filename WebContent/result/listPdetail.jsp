@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Professor Enroll List_DETAIL</title>
 </head>
 <body>
 <h2>Professor ${profId} 's Enroll List_DETAIL<br><br>

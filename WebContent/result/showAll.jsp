@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>All Class List</title>
 </head>
 <body>
 <h2>All Class List</h2><br>

@@ -14,7 +14,8 @@ import lms.vo.Student;
 public class LoginController implements Controller{
 	// 로그인
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void execute(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
 		String job = request.getParameter("job");
