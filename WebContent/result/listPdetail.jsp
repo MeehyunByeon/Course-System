@@ -31,6 +31,6 @@
 			</table>
 			
 	<hr><br>
-	<%@ include file="/result/homeP.jsp" %>
+	<%@ include file="/homeP.jsp" %>
 </body>
 </html>

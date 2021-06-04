@@ -10,7 +10,7 @@ import lms.service.Service;
 import lms.vo.Enroll;
 
 public class EnrollSController implements Controller {
-
+	// 학생: 수강 신청
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String eid = request.getParameter("eid");

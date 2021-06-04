@@ -16,6 +16,6 @@
 	<h3>TITLE : ${ename }</h3><br><br>
 
 	<p></p>
-	<%@ include file="/result/homeS.jsp" %>
+	<%@ include file="/homeS.jsp" %>
 </body>
 </html>

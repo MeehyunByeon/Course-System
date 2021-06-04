@@ -12,7 +12,7 @@ import lms.service.Service;
 import lms.vo.SSubject;
 
 public class EnrollPController implements Controller{
-	
+	// 교수: 강의 등록
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {

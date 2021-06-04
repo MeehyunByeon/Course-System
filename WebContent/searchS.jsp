@@ -32,6 +32,6 @@
 		${result}
 	<%} %>
 	
-	<%@ include file="result/homeS.jsp" %>
+	<%@ include file="homeS.jsp" %>
 </body>
 </html>

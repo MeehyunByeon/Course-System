@@ -14,10 +14,30 @@
 		ArrayList<SSubject> listP = (ArrayList<SSubject>) request.getAttribute("listP");
 		if(!listP.isEmpty()) { %>
 			<table border="1">
-				<tr><th>Subject ID</th><th>Title</th><th>MAX</th><th>Current</th>
-				<form action="detailP.do" method="put">
+				<tr><th>Subject ID</th><th>Title</th><th>MAX</th>
 				<% for(int i = 0; i < listP.size(); i++){
 					SSubject sub = listP.get(i);	%>
+					<tr><td><%=sub.getId() %></td>
+						<td><%=sub.getName() %></td>
+						<td><%=sub.getCount() %></td>
+					</tr>
+				<%	}
+			}else {
+				out.print("<h3>No subject!!!</h3>");
+			}
+		%>
+			</table>
+			
+	<hr><br>
+	<h2>Enroll List CURRENT</h2>
+	<% 
+		ArrayList<SSubject> listCP = (ArrayList<SSubject>) request.getAttribute("listCP");
+		if(!listCP.isEmpty()) { %>
+			<table border="1">
+				<tr><th>Subject ID</th><th>Title</th><th>MAX</th><th>Current</th>
+				<form action="detailP.do" method="put">
+				<% for(int i = 0; i < listCP.size(); i++){
+					SSubject sub = listCP.get(i);	%>
 					
 					<tr><td><input type="submit" name="subject" value="<%=sub.getId()%>"></td>
 						<td><%=sub.getName() %></td>
@@ -26,12 +46,13 @@
 					</tr>
 				<%	}
 			}else {
-				out.print("<h3>No subject!!!</h3>");
+				out.print("<h3>Not Exist!!!</h3>");
 			}
 		%>	</form>
 			</table>
 			
 	<hr><br>
-	<%@ include file="/result/homeP.jsp" %>
+	
+	<%@ include file="/homeP.jsp" %>
 </body>
 </html>

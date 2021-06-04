@@ -41,5 +41,4 @@ public class Enroll {
 		this.name = name;
 	}
 	
-	
 }

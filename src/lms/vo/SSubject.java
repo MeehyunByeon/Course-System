@@ -37,42 +37,38 @@ public class SSubject {
 		this.id = id;
 		this.prof = prof;
 	}
-
+	
 	public String getId() {
 		return id;
 	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 	public int getCount() {
 		return count;
 	}
-
 	public void setCount(int count) {
 		this.count = count;
 	}
-
+	
 	public String getProf() {
 		return prof;
 	}
-
 	public void setProf(String prof) {
 		this.prof = prof;
 	}
+	
 	public int getNumber() {
 		return number;
 	}
-
 	public void setNumber(int number) {
 		this.number = number;
 	}
@@ -80,7 +76,6 @@ public class SSubject {
 	public int getCurrent() {
 		return current;
 	}
-
 	public void setCurrent(int current) {
 		this.current = current;
 	}

@@ -11,6 +11,6 @@
 	<h3>Professor ID : ${professor }</h3><br><br>
 	<h3>Cancle Subject ID : ${subject }</h3><br><br>
 
-	<%@ include file="/result/homeP.jsp" %>
+	<%@ include file="/homeP.jsp" %>
 </body>
 </html>

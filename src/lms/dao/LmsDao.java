@@ -91,7 +91,7 @@ public class LmsDao {
 			
 		}catch (Exception e) 
 		{
-			System.out.print("Login Error: "+e);
+			System.out.print("Professor Login Error: "+e);
 		}finally {
 			close(conn, pstmt, rs);
 		}
@@ -121,7 +121,7 @@ public class LmsDao {
 			
 		}catch (Exception e) 
 		{
-			System.out.print("Login Error: "+e);
+			System.out.print("Student Login Error: "+e);
 		}finally {
 			close(conn, pstmt, rs);
 		}
@@ -144,7 +144,7 @@ public class LmsDao {
 			pstmt.executeUpdate();
 		}catch (Exception e) 
 		{
-			System.out.print("MDAO:enrollP"+e);
+			System.out.print("Professor Enroll Error"+e);
 		}finally {
 			close(conn, pstmt);
 		}
@@ -164,7 +164,7 @@ public class LmsDao {
 			pstmt.executeUpdate();
 		}catch (Exception e) 
 		{
-			System.out.print("MDAO:enrollS"+e);
+			System.out.print("Student Enroll Error"+e);
 		}finally {
 			close(conn, pstmt);
 		}
@@ -193,7 +193,7 @@ public class LmsDao {
 				subject.setProf(rs.getString(4));
 			}
 		}catch(Exception e) {
-			System.out.print("MSearch error"+e);
+			System.out.print("Student Class Search Error"+e);
 		}finally
 		{
 			close(conn, pstmt, rs);
@@ -215,7 +215,7 @@ public class LmsDao {
 			pstmt.executeUpdate();
 		}catch (Exception e) 
 		{
-			System.out.print("MDAO:mDelete"+e);
+			System.out.print("Student Cancle Error"+e);
 		}finally {
 			close(conn, pstmt);
 		}
@@ -234,7 +234,7 @@ public class LmsDao {
 			pstmt.executeUpdate();
 		}catch (Exception e) 
 		{
-			System.out.print("MDAO:mDelete"+e);
+			System.out.print("Professor Cancle Error"+e);
 		}finally {
 			close(conn, pstmt);
 		}
@@ -247,7 +247,7 @@ public class LmsDao {
 			pstmt.executeUpdate();
 		}catch (Exception e) 
 		{
-			System.out.print("MDAO:mDelete"+e);
+			System.out.print("Professor Cancle Error - DB_enroll"+e);
 		}finally {
 			close(conn, pstmt);
 		}
@@ -259,6 +259,36 @@ public class LmsDao {
 		ResultSet rs = null;
 		SSubject sub = null;
 		ArrayList<SSubject> listP = new ArrayList<SSubject>();
+		
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("select id, name, count from subject where prof=?;");
+			pstmt.setString(1, profId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) 
+			{
+				sub = new SSubject();
+				sub.setId(rs.getString(1));
+				sub.setName(rs.getString(2));
+				sub.setCount(rs.getInt(3));
+				listP.add(sub);
+			}
+		}catch (Exception e) 
+		{
+			System.out.print("Professor List Error"+e);
+		}finally {
+			close(conn, pstmt, rs);
+		}
+		return listP;
+	}
+	
+	public ArrayList<SSubject> listCP(String profId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		SSubject sub = null;
+		ArrayList<SSubject> listCP = new ArrayList<SSubject>();
 		
 		try
 		{
@@ -277,16 +307,48 @@ public class LmsDao {
 				sub.setName(rs.getString(2));
 				sub.setCount(rs.getInt(3));
 				sub.setNumber(rs.getInt(4));
-				listP.add(sub);
+				listCP.add(sub);
 			}
 		}catch (Exception e) 
 		{
-			System.out.print("MDAO:mListAll"+e);
+			System.out.print("Professor List Error_CURRENT"+e);
 		}finally {
 			close(conn, pstmt, rs);
 		}
-		return listP;
+		return listCP;
 	}
+	
+	public ArrayList<Enroll> detailP(String subject) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Enroll en = null;
+		ArrayList<Enroll> detailP = new ArrayList<Enroll>();
+
+		try
+		{
+			conn = connect();
+			pstmt = conn.prepareStatement("select enroll.student, student.name "
+					+ "from enroll, student "
+					+ "where enroll.subject = ? and enroll.student = student.id;");
+			pstmt.setString(1, subject);
+			rs = pstmt.executeQuery();
+			while (rs.next()) 
+			{
+				en = new Enroll();
+				en.setStudent(rs.getString(1));
+				en.setName(rs.getString(2));
+				detailP.add(en);
+			}
+		}catch (Exception e) 
+		{
+			System.out.print("Professor List Error_DETAIL"+e);
+		}finally {
+			close(conn, pstmt, rs);
+		}
+		return detailP;
+	}
+	
 	public ArrayList<SSubject> listS(String studId) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -313,42 +375,11 @@ public class LmsDao {
 			}
 		}catch (Exception e) 
 		{
-			System.out.print("MDAO:listS"+e);
+			System.out.print("Student List Error"+e);
 		}finally {
 			close(conn, pstmt, rs);
 		}
 		return listS;
-	}
-	
-	public ArrayList<Enroll> detailP(String subject) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		Enroll en = null;
-		ArrayList<Enroll> detailP = new ArrayList<Enroll>();
-
-		try
-		{
-			conn = connect();
-			pstmt = conn.prepareStatement("select enroll.student, student.name "
-					+ "from enroll, student "
-					+ "where subject = ? and enroll.student = student.id;");
-			pstmt.setString(1, subject);
-			rs = pstmt.executeQuery();
-			while (rs.next()) 
-			{
-				en = new Enroll();
-				en.setStudent(rs.getString(1));
-				en.setName(rs.getString(2));
-				detailP.add(en);
-			}
-		}catch (Exception e) 
-		{
-			System.out.print("MDAO:listS"+e);
-		}finally {
-			close(conn, pstmt, rs);
-		}
-		return detailP;
 	}
 	
 	public ArrayList<SSubject> showAll() {
@@ -375,7 +406,7 @@ public class LmsDao {
 			}
 		}catch (Exception e) 
 		{
-			System.out.print("MDAO:mListAll"+e);
+			System.out.print("All Class List Error"+e);
 		}finally {
 			close(conn, pstmt, rs);
 		}
@@ -409,12 +440,13 @@ public class LmsDao {
 			}
 		}catch (Exception e) 
 		{
-			System.out.print("MDAO:mListAll"+e);
+			System.out.print("All Class List Error_CURRENT"+e);
 		}finally {
 			close(conn, pstmt, rs);
 		}
 		return detail;
 	}
+	
 	
 	
 }

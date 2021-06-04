@@ -10,7 +10,7 @@ import lms.service.Service;
 import lms.vo.Enroll;
 
 public class CancleSController implements Controller {
-
+	// 학생: 수강 취소
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String subject = request.getParameter("subject");

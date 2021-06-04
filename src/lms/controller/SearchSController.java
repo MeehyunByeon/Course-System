@@ -11,6 +11,7 @@ import lms.service.Service;
 import lms.vo.SSubject;
 
 public class SearchSController implements Controller {
+	// 학생: 수강신청 과목 검색
 	public void execute(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		String find = request.getParameter("subject");

@@ -13,7 +13,7 @@ import lms.vo.SSubject;
 
 
 public class ListPController implements Controller{
-
+	// 교수: 등록한 강의 리스트
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
@@ -21,9 +21,11 @@ public class ListPController implements Controller{
 		
 		Service service = Service.getInstance();
 		ArrayList<SSubject> listP = service.listP(profId);
+		ArrayList<SSubject> listCP = service.listCP(profId);
 		
 		request.setAttribute("profId", profId);
 		request.setAttribute("listP", listP);
+		request.setAttribute("listCP", listCP);
 		HttpUtil.forward(request, response, "/result/listP.jsp");
 	}
 }

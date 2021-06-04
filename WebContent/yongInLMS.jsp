@@ -7,7 +7,7 @@
 <title>login</title>
 </head>
 <body>
-	<h1>YongIn LMS</h1>
+	<h1>YongIn Course System</h1>
 	<h2>LogIn</h2><br>
 	<form action="login.do" method="post">
 		I 	   D : <input type="text" name="id" /> <br><br>

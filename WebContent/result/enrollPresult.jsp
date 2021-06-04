@@ -14,6 +14,6 @@
 	<h3>Number of Student : ${count }</h3>
 	
 	<p></p>
-	<%@ include file="/result/homeP.jsp" %>
+	<%@ include file="/homeP.jsp" %>
 </body>
 </html>

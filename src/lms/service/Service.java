@@ -19,11 +19,13 @@ public class Service {
 	{
 		return service;
 	}
-	// 로그인
+	
+	// 교수 로그인
 	public boolean loginP(String id, String pwd) {
 		return dao.loginP(id, pwd);
 	}
 	
+	// 학생 로그인
 	public boolean loginS(String id, String pwd) {
 		return dao.loginS(id, pwd);
 	}
@@ -33,12 +35,13 @@ public class Service {
 		dao.enrollP(subject);
 	}
 	
-	// 학생: 수강 신청
+	// 학생: 수강 신청할 과목 검색
 	public SSubject searchS(String find) {
 		SSubject subject = dao.searchS(find);
 		return subject;
 	}
 	
+	// 학생: 수강 신청
 	public void enrollS(Enroll enroll) {
 		dao.enrollS(enroll);
 	}
@@ -58,8 +61,13 @@ public class Service {
 		ArrayList<SSubject> subject = dao.listP(profId);
 		return subject;
 	}
+	// 교수: 등록한 강의 리스트_수강신청 현황
+	public ArrayList<SSubject> listCP(String profId) {
+		ArrayList<SSubject> subject = dao.listCP(profId);
+		return subject;
+	}
 
-	// 교수: 등록한 강의 상세 리스트
+	// 교수: 등록한 강의 리스트_상세정보
 	public ArrayList<Enroll> detailP(String subject) {
 		ArrayList<Enroll> en = dao.detailP(subject);
 		return en;
@@ -70,11 +78,11 @@ public class Service {
 		ArrayList<SSubject> subject = dao.listS(studId);
 		return subject;
 	}
-	
+	// 모든 강의 리스트
 	public ArrayList<SSubject> showAll() {
 		return dao.showAll();
 	}
-	
+	// 수강신청 현황
 	public ArrayList<SSubject> showDetail() {
 		return dao.showDetail();
 	}

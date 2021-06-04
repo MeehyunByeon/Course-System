@@ -15,6 +15,6 @@
 		<input type="submit" value="Enroll">
 	</form>
 	
-	<%@ include file="result/homeP.jsp" %>
+	<%@ include file="/homeP.jsp" %>
 </body>
 </html>
